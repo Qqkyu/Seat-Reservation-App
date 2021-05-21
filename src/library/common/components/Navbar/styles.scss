@@ -1,0 +1,16 @@
+@import "~antd/dist/antd.css";
+
+.navbar {
+    height: 62px;
+}
+
+.logo {
+    width: 240px;
+    height: 62px;
+    display: block;
+    margin: auto;
+}
+
+[data-theme="dark"] {
+    background: #141414;
+}

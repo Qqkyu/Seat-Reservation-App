@@ -1,3 +1,7 @@
+/* Components */
+import BottomNavbar from "library/common/components/BottomNavbar";
+import Navbar from "library/common/components/Navbar";
+
 /* Ant Design */
 import { Layout } from "antd";
 
@@ -7,9 +11,13 @@ function Index() {
     return (
         <>
             <Layout>
-                <Header>Header</Header>
+                <Header>
+                    <Navbar />
+                </Header>
                 <Content>Content</Content>
-                <Footer>Footer</Footer>
+                <Footer>
+                    <BottomNavbar />
+                </Footer>
             </Layout>
         </>
     );
