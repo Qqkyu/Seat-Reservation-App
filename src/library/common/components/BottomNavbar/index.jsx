@@ -1,5 +1,5 @@
 /* CSS */
-import "./styles.scss";
+import "./styles.css";
 
 function Index() {
     return (

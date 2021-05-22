@@ -1,5 +1,5 @@
 /* CSS */
-import "./styles.scss";
+import "./styles.css";
 
 /* Images */
 import { ReactComponent as Logo } from "resources/images/logo.svg";
