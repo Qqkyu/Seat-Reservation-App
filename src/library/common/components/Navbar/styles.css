@@ -2,6 +2,7 @@
 
 .navbar {
     height: 62px;
+    background: #141414;
 }
 
 .logo {
@@ -9,8 +10,4 @@
     height: 62px;
     display: block;
     margin: auto;
-}
-
-[data-theme="dark"] {
-    background: #141414;
 }

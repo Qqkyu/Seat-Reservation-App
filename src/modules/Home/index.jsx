@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
@@ -14,12 +15,12 @@ const { Header, Footer, Content } = Layout;
 
 function Index() {
     const [form] = Form.useForm();
-    const [seatAmount, setSeatAmount] = useState();
+    const [seatAmount, setSeatAmount] = useState(1);
     const [seatsSideBySide, setSeatsSideBySide] = useState(false);
 
     return (
         <Layout className="layout">
-            <Header>
+            <Header className="navbar">
                 <Navbar />
             </Header>
             <Content>
@@ -38,22 +39,31 @@ function Index() {
                             <InputNumber
                                 min={1}
                                 max={10}
+                                defaultValue={1}
                                 onChange={setSeatAmount}
                                 className="seats-input"
                             />
                         </Form.Item>
                         <Form.Item>
-                            <Checkbox onChange={setSeatsSideBySide}>
+                            <Checkbox
+                                onChange={(e) =>
+                                    setSeatsSideBySide(!seatsSideBySide)
+                                }
+                            >
                                 Czy miejsca mają być obok siebie?
                             </Checkbox>
                         </Form.Item>
                         <Form.Item>
-                            <Button
-                                type="primary"
-                                className="choose-seats-button"
+                            <Link
+                                to={`/seats/amount=${seatAmount}/SBS=${seatsSideBySide}/`}
                             >
-                                Wybierz miejsca
-                            </Button>
+                                <Button
+                                    type="primary"
+                                    className="choose-seats-button"
+                                >
+                                    Wybierz miejsca
+                                </Button>
+                            </Link>
                         </Form.Item>
                     </Form>
                 </div>

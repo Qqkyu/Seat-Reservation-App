@@ -4,15 +4,12 @@
 
 .site-content {
     height: calc(100vh - 124px);
-    background-color: #b8b6b2;
+    background-color: #d6d6d6;
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-family: "Lato", sans-serif;
-}
-
-.seats-form {
 }
 
 .seats-input {
