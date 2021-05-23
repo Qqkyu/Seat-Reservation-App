@@ -1,3 +1,6 @@
+/* React */
+import { Link } from "react-router-dom";
+
 /* CSS */
 import "./styles.css";
 
@@ -6,9 +9,11 @@ import { ReactComponent as Logo } from "resources/images/logo.svg";
 
 function Index() {
     return (
-        <div className="navbar">
-            <Logo className="logo" />
-        </div>
+        <Link to="/">
+            <div className="navbar">
+                <Logo className="logo" />
+            </div>
+        </Link>
     );
 }
 

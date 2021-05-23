@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+/* React */
+import React from "react";
 import { Link } from "react-router-dom";
+
+/* Redux */
+import { setSeatsTogether } from "library/common/actions/SeatsTogetherActions";
+import { setSeatAmount } from "library/common/actions/SeatAmountActions";
+import { useDispatch } from "react-redux";
 
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
@@ -15,8 +21,8 @@ const { Header, Footer, Content } = Layout;
 
 function Index() {
     const [form] = Form.useForm();
-    const [seatAmount, setSeatAmount] = useState(1);
-    const [seatsSideBySide, setSeatsSideBySide] = useState(false);
+
+    const dispatch = useDispatch();
 
     return (
         <Layout className="layout">
@@ -40,23 +46,25 @@ function Index() {
                                 min={1}
                                 max={10}
                                 defaultValue={1}
-                                onChange={setSeatAmount}
+                                onBlur={(e) => {
+                                    dispatch(setSeatAmount(e.target.value));
+                                }}
                                 className="seats-input"
                             />
                         </Form.Item>
                         <Form.Item>
                             <Checkbox
-                                onChange={(e) =>
-                                    setSeatsSideBySide(!seatsSideBySide)
-                                }
+                                onChange={(e) => {
+                                    dispatch(
+                                        setSeatsTogether(e.target.checked)
+                                    );
+                                }}
                             >
                                 Czy miejsca mają być obok siebie?
                             </Checkbox>
                         </Form.Item>
                         <Form.Item>
-                            <Link
-                                to={`/seats/amount=${seatAmount}/SBS=${seatsSideBySide}/`}
-                            >
+                            <Link to={`/seats`}>
                                 <Button
                                     type="primary"
                                     className="choose-seats-button"

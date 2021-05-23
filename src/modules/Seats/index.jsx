@@ -1,6 +1,8 @@
 /* React */
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+
+/* Redux */
+import { useSelector } from "react-redux";
 
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
@@ -18,7 +20,6 @@ import { Layout } from "antd";
 const { Header, Footer, Content } = Layout;
 
 function Index() {
-    const { seatsAmount, SBS } = useParams();
     const [seats, setSeats] = useState({});
 
     useEffect(() => {
@@ -28,6 +29,9 @@ function Index() {
         });
     }, []);
 
+    const seatAmount = useSelector((state) => state.seatAmount);
+    const seatsTogether = useSelector((state) => state.seatsTogether);
+
     return (
         <Layout className="layout">
             <Header className="navbar">
@@ -36,6 +40,8 @@ function Index() {
             <Content>
                 <div className="site-content">
                     <h1>Seats grid...</h1>
+                    <h2>{`seatAmount: ${seatAmount}`}</h2>
+                    <h2>{`seatsTogether: ${seatsTogether}`}</h2>
                 </div>
             </Content>
             <Footer>
