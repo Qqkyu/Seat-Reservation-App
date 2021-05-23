@@ -11,11 +11,11 @@ import Navbar from "library/common/components/Navbar";
 /* CSS */
 import "./seatsStyles.css";
 
-/* Misc */
-import axios from "axios";
-
 /* Ant Design */
 import { Layout } from "antd";
+
+/* Misc */
+import axios from "axios";
 
 const { Header, Footer, Content } = Layout;
 

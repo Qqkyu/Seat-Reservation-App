@@ -1,6 +1,10 @@
 /* React */
 import { Link } from "react-router-dom";
 
+/* Redux */
+import { setSeatsTogether } from "library/common/actions/SeatsTogetherActions";
+import { useDispatch } from "react-redux";
+
 /* CSS */
 import "./styles.css";
 
@@ -8,8 +12,15 @@ import "./styles.css";
 import { ReactComponent as Logo } from "resources/images/logo.svg";
 
 function Index() {
+    const dispatch = useDispatch();
+
     return (
-        <Link to="/">
+        <Link
+            to="/"
+            onClick={(e) => {
+                dispatch(setSeatsTogether(false));
+            }}
+        >
             <div className="navbar">
                 <Logo className="logo" />
             </div>

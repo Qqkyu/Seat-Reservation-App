@@ -1,10 +1,14 @@
+/* React */
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 
+/* Redux */
 import { createStore } from "redux";
-import rootReducer from "library/common/reducers";
 import { Provider } from "react-redux";
+import rootReducer from "library/common/reducers";
+
+/* Misc */
+import App from "./App";
 
 const store = createStore(rootReducer);
 
