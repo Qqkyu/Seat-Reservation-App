@@ -3,9 +3,8 @@ const reservedSeats = (state = [], action) => {
         case "SET_SEAT_AS_RESERVED":
             return [...state, action.payload];
         case "SET_SEAT_AS_AVAILABLE":
-            return state.filter((seat) => {
-                const seatId = action.payload["id"];
-                return seat["id"] !== seatId;
+            return state.filter((seatId) => {
+                return seatId !== action.payload;
             });
         default:
             return state;

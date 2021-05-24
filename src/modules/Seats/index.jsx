@@ -118,6 +118,9 @@ function Index() {
                                                                         "reserved"
                                                                     ]
                                                                 }
+                                                                seatId={
+                                                                    seat["id"]
+                                                                }
                                                             />
                                                         </Col>
                                                     </>
