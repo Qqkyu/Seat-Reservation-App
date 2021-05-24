@@ -13,7 +13,7 @@ import Seat from "library/common/components/Seat";
 import "./seatsStyles.css";
 
 /* Ant Design */
-import { Layout, Spin, Space, Row, Col, Divider } from "antd";
+import { Layout, Spin, Space, Row, Col, Divider, Button } from "antd";
 
 /* Misc */
 import axios from "axios";
@@ -58,13 +58,13 @@ function Index() {
 
                                     /* Find example seats at current row if needed */
                                     if (seatAmount > 0) {
-                                        var exampleSeats = findSeats(
+                                        var chosenSeats = findSeats(
                                             seats[seatRow],
                                             seatAmount,
                                             seatsTogether
                                         );
                                         /* Update needed seats amount */
-                                        seatAmount -= exampleSeats.length;
+                                        seatAmount -= chosenSeats.length;
                                     }
 
                                     return (
@@ -98,9 +98,9 @@ function Index() {
                                                         >
                                                             <Seat
                                                                 exampleSeat={
-                                                                    exampleSeats
+                                                                    chosenSeats
                                                                         ? includes(
-                                                                              exampleSeats,
+                                                                              chosenSeats,
                                                                               seatRow,
                                                                               seatCol
                                                                           )
@@ -119,8 +119,8 @@ function Index() {
                                         </Row>
                                     );
                                 })}
-                                <Divider>
-                                    <Space direction="horizontal">
+                                <Divider direction="vertical">
+                                    <Space direction="horizontal" size="large">
                                         <Seat reserved={false} /> Miejsca
                                         dostępne
                                         <Divider type="vertical" />
@@ -129,6 +129,14 @@ function Index() {
                                         <Divider type="vertical" />
                                         <Seat exampleSeat={true} /> Twój wybór
                                     </Space>
+                                    <Divider style={{ marginTop: 30 }}>
+                                        <Button
+                                            type="primary"
+                                            style={{ width: 100, height: 50 }}
+                                        >
+                                            Rezerwuj
+                                        </Button>
+                                    </Divider>
                                 </Divider>
                             </div>
                         </div>
