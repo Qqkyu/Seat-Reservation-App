@@ -3,11 +3,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 .site-content {
+    position: relative;
+    top: 62px;
+    left: 0px;
+
     height: calc(100vh - 124px);
-    background-color: #d6d6d6;
+    min-height: 400px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: #d6d6d6;
 
     font-family: "Lato", sans-serif;
 }

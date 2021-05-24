@@ -29,7 +29,7 @@ function Index() {
             <Header className="navbar">
                 <Navbar />
             </Header>
-            <Content>
+            <Content style={{ height: "100%" }}>
                 <div className="site-content">
                     <Form
                         form={form}
