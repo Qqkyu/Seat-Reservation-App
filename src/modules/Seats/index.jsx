@@ -7,13 +7,15 @@ import { useSelector, useDispatch } from "react-redux";
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
 import Navbar from "library/common/components/Navbar";
+
+import SeatsInfo from "library/common/components/SeatsInfo";
 import Seat from "library/common/components/Seat";
 
 /* CSS */
 import "./seatsStyles.css";
 
 /* Ant Design */
-import { Layout, Spin, Space, Row, Col, Divider, Button } from "antd";
+import { Layout, Spin, Space, Row, Col, Divider, Button, Card } from "antd";
 
 /* Misc */
 import axios from "axios";
@@ -120,19 +122,11 @@ function Index() {
                                     );
                                 })}
                                 <Divider direction="vertical">
-                                    <Space direction="horizontal" size="large">
-                                        <Seat reserved={false} /> Miejsca
-                                        dostępne
-                                        <Divider type="vertical" />
-                                        <Seat reserved={true} /> Miejsca
-                                        zarezerwowane
-                                        <Divider type="vertical" />
-                                        <Seat exampleSeat={true} /> Twój wybór
-                                    </Space>
+                                    <SeatsInfo />
                                     <Divider style={{ marginTop: 30 }}>
                                         <Button
                                             type="primary"
-                                            style={{ width: 100, height: 50 }}
+                                            className="reserve-button"
                                         >
                                             Rezerwuj
                                         </Button>
