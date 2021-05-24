@@ -1,5 +1,6 @@
 /* React */
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 /* Redux */
 import { useSelector, useDispatch } from "react-redux";
@@ -20,7 +21,16 @@ import Seat from "library/common/components/Seat";
 import "./seatsStyles.css";
 
 /* Ant Design */
-import { Layout, Spin, Space, Row, Col, Divider, Button } from "antd";
+import {
+    Layout,
+    Spin,
+    Space,
+    Row,
+    Col,
+    Divider,
+    Button,
+    notification,
+} from "antd";
 
 /* Misc */
 import axios from "axios";
@@ -37,6 +47,8 @@ function Index() {
     const seatsLoaded = useSelector((state) => state.availableSeatsLoaded);
     const seats = useSelector((state) => state.availableSeats);
 
+    const reservedSeats = useSelector((state) => state.reservedSeats);
+
     let seatAmount = useSelector((state) => state.seatAmount);
     let seatsTogether = useSelector((state) => state.seatsTogether);
 
@@ -48,6 +60,13 @@ function Index() {
             dispatch(availableSeatsLoaded(true));
         });
     }, [dispatch]);
+
+    const openNotification = (type, message, description) => {
+        notification[type]({
+            message,
+            description,
+        });
+    };
 
     return (
         <>
@@ -132,12 +151,30 @@ function Index() {
                                 <Divider direction="vertical">
                                     <SeatsInfo />
                                     <Divider style={{ marginTop: 30 }}>
-                                        <Button
-                                            type="primary"
-                                            className="reserve-button"
-                                        >
-                                            Rezerwuj
-                                        </Button>
+                                        {reservedSeats.length === 0 ? (
+                                            <Button
+                                                type="primary"
+                                                className="reserve-button"
+                                                onClick={(e) =>
+                                                    openNotification(
+                                                        "error",
+                                                        "Za mało wybranych miejsc!",
+                                                        "Proszę wybrać przynajmniej jedno miejsce do rezerwacji."
+                                                    )
+                                                }
+                                            >
+                                                Rezerwuj
+                                            </Button>
+                                        ) : (
+                                            <Link to="/summary">
+                                                <Button
+                                                    type="primary"
+                                                    className="reserve-button"
+                                                >
+                                                    Rezerwuj
+                                                </Button>
+                                            </Link>
+                                        )}
                                     </Divider>
                                 </Divider>
                             </div>
