@@ -140,7 +140,7 @@ function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="site-loading-content">
+                        <div className="site-content seat-grid-loading">
                             <Space size="middle">
                                 <Spin size="large" />
                             </Space>
