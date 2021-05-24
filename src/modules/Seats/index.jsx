@@ -30,8 +30,8 @@ function Index() {
     const seatsLoaded = useSelector((state) => state.availableSeatsLoaded);
     const seats = useSelector((state) => state.availableSeats);
 
-    const seatAmount = useSelector((state) => state.seatAmount);
-    const seatsTogether = useSelector((state) => state.seatsTogether);
+    let seatAmount = useSelector((state) => state.seatAmount);
+    let seatsTogether = useSelector((state) => state.seatsTogether);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/seats`).then((res) => {
@@ -39,7 +39,6 @@ function Index() {
             const mappedSeats = mapSeatsObject(seats);
             dispatch(setAvailableSeats(mappedSeats));
             dispatch(availableSeatsLoaded(true));
-            console.log(findSeats(mappedSeats[0], 3));
         });
     }, [dispatch]);
 
@@ -54,7 +53,21 @@ function Index() {
                         <div className="site-content">
                             <div>
                                 {seats.map((row, seatRow) => {
+                                    /* Keep count of current column */
                                     let curCol = 0;
+
+                                    /* Find example seats at current row if needed */
+                                    if (seatAmount > 0) {
+                                        console.log(seatAmount, seatsTogether);
+                                        var exampleSeats = findSeats(
+                                            seats[seatRow],
+                                            seatAmount,
+                                            seatsTogether
+                                        );
+                                        /* Update needed seats amount */
+                                        seatAmount -= exampleSeats.length;
+                                    }
+
                                     return (
                                         <Row>
                                             {row.map((seat) => {
@@ -85,6 +98,15 @@ function Index() {
                                                             }}
                                                         >
                                                             <Seat
+                                                                exampleSeat={
+                                                                    exampleSeats
+                                                                        ? includes(
+                                                                              exampleSeats,
+                                                                              seatRow,
+                                                                              seatCol
+                                                                          )
+                                                                        : false
+                                                                }
                                                                 reserved={
                                                                     seat[
                                                                         "reserved"
@@ -145,7 +167,7 @@ function mapSeatsObject(seats) {
  */
 function findSeats(row, amount, together = false) {
     let exampleSeats = [];
-    if (together) {
+    if (together && amount > 1) {
         const seatsRowAmount = row.length;
         /* Iterate over possible "first" seats */
         for (let curSeat = 0; curSeat <= seatsRowAmount - amount; ++curSeat) {
@@ -192,7 +214,7 @@ function findSeats(row, amount, together = false) {
         /* Iterate over all seats in given row */
         for (
             let curSeat = 0;
-            curSeat < seatsRowAmount || exampleSeats.length === amount;
+            curSeat < seatsRowAmount && exampleSeats.length < amount;
             ++curSeat
         ) {
             const seat = row[curSeat];
@@ -201,44 +223,24 @@ function findSeats(row, amount, together = false) {
                 exampleSeats.push(seat);
             }
         }
-        /* Return example seats even if it has less seats that given amount */
+        /* Return example seats even if it has less seats than given amount */
         return exampleSeats;
     }
 }
 
-/*
-        for (let curRow = 0; curRow < rows; ++curRow) {
-            const rowSeats = seats[curRow].length;
-
-            for (let curCol = 0; curCol <= rowSeats - amount; ++curCol) {
-                let [separated, prevSeatCol] = [
-                    false,
-                    seats[curRow][curCol]["cords"]["y"],
-                ];
-
-                exampleSeats.push(seats[curRow][curCol]);
-
-                for (
-                    let curSeat = curCol + 1;
-                    curSeat < curSeat + amount && !separated;
-                    ++curSeat
-                ) {
-                    let curSeatCol = seats[curRow][curSeat]["cords"]["y"];
-
-                    if (prevSeatCol + 1 !== curSeatCol) {
-                        separated = true;
-                    } else {
-                        prevSeatCol = curSeatCol;
-                        exampleSeats.push(seats[curRow][curSeat]);
-                    }
-                }
-                if (separated) {
-                    exampleSeats = [];
-                } else {
-                    return exampleSeats;
-                }
-            }
-        }
-        */
+/**
+ * Check if given array of seats has seat with given cords.
+ * @param {array} seats - Array of seats.
+ * @param {x}
+ * @param {y}
+ * @returns {boolean}
+ */
+function includes(seats, x, y) {
+    return (
+        typeof seats.find((seat) => {
+            return seat["cords"]["x"] === x && seat["cords"]["y"] === y;
+        }) != "undefined"
+    );
+}
 
 export default Index;

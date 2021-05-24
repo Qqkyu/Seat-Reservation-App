@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 /* Redux */
 import { setSeatsTogether } from "library/common/actions/SeatsTogetherActions";
+import { setSeatAmount } from "library/common/actions/SeatAmountActions";
 import { useDispatch } from "react-redux";
 
 /* CSS */
@@ -18,6 +19,7 @@ function Index() {
         <Link
             to="/"
             onClick={(e) => {
+                dispatch(setSeatAmount(1));
                 dispatch(setSeatsTogether(false));
             }}
         >
