@@ -4,6 +4,11 @@ import React, { useEffect } from "react";
 /* Redux */
 import { useSelector, useDispatch } from "react-redux";
 
+/* Utilities */
+import mapSeatsObject from "library/utilities/mapSeatsObject";
+import findSeats from "library/utilities/findSeats";
+import { includes } from "library/utilities/seatsMisc";
+
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
 import Navbar from "library/common/components/Navbar";
@@ -15,7 +20,7 @@ import Seat from "library/common/components/Seat";
 import "./seatsStyles.css";
 
 /* Ant Design */
-import { Layout, Spin, Space, Row, Col, Divider, Button, Card } from "antd";
+import { Layout, Spin, Space, Row, Col, Divider, Button } from "antd";
 
 /* Misc */
 import axios from "axios";
@@ -148,110 +153,6 @@ function Index() {
                 )
             </Layout>
         </>
-    );
-}
-
-/**
- * Map seats array into seats array of arrays where x cords are indices.
- * @param {object} seats - The available seats fetched from the API.
- * @returns {array}
- */
-function mapSeatsObject(seats) {
-    const seatsArray = [];
-
-    for (const seat of seats) {
-        const row = seat["cords"]["x"];
-        // Check whether there are any seats at current row
-        if (typeof seatsArray[row] != "undefined") {
-            seatsArray[row].push(seat);
-        } else {
-            seatsArray[row] = [seat];
-        }
-    }
-
-    return seatsArray;
-}
-
-/**
- * Find given amount of seats.
- * @param {array} row - Array of seats in single row.
- * @returns {array} Array of example seats.
- */
-function findSeats(row, amount, together = false) {
-    let exampleSeats = [];
-    if (together && amount > 1) {
-        const seatsRowAmount = row.length;
-        /* Iterate over possible "first" seats */
-        for (let curSeat = 0; curSeat <= seatsRowAmount - amount; ++curSeat) {
-            /* Push first seat in current iteration to result array */
-            exampleSeats.push(row[curSeat]);
-            /*
-             * Save first seat column in current iteration
-             * Start iterating only if first seat is not reserved - set separated flag to true if first seat is
-             */
-            let [prevSeatCol, separated] = [
-                row[curSeat]["cords"]["y"],
-                row[curSeat]["reserved"],
-            ];
-            for (let i = 1; i < amount && !separated; ++i) {
-                /* Check if current seat is not reserved */
-                if (row[curSeat + i]["reserved"]) {
-                    separated = true;
-                } else {
-                    /* Save current seat's column and compare with previous seat's column */
-                    const curSeatCol = row[curSeat + i]["cords"]["y"];
-                    if (prevSeatCol + 1 !== curSeatCol) {
-                        /* Seats are separated, break the loop */
-                        separated = true;
-                    } else {
-                        /* Seats are next to each other, add seats to result and update prevSeatCol */
-                        exampleSeats.push(row[curSeat + i]);
-                        prevSeatCol = curSeatCol;
-                    }
-                }
-            }
-            /* Check loop result */
-            if (separated) {
-                /* Reset result array */
-                exampleSeats = [];
-            } else {
-                /* Found given amount of seats next to each other - return result */
-                return exampleSeats;
-            }
-        }
-        /* Unable to find amount of given seats next to each other - return empty array */
-        return [];
-    } else {
-        const seatsRowAmount = row.length;
-        /* Iterate over all seats in given row */
-        for (
-            let curSeat = 0;
-            curSeat < seatsRowAmount && exampleSeats.length < amount;
-            ++curSeat
-        ) {
-            const seat = row[curSeat];
-            /* Add seat only if it is not already reserved */
-            if (!seat["reserved"]) {
-                exampleSeats.push(seat);
-            }
-        }
-        /* Return example seats even if it has less seats than given amount */
-        return exampleSeats;
-    }
-}
-
-/**
- * Check if given array of seats has seat with given cords.
- * @param {array} seats - Array of seats.
- * @param {x}
- * @param {y}
- * @returns {boolean}
- */
-function includes(seats, x, y) {
-    return (
-        typeof seats.find((seat) => {
-            return seat["cords"]["x"] === x && seat["cords"]["y"] === y;
-        }) != "undefined"
     );
 }
 
