@@ -13,7 +13,7 @@ import Seat from "library/common/components/Seat";
 import "./seatsStyles.css";
 
 /* Ant Design */
-import { Layout, Spin, Space, Row, Col } from "antd";
+import { Layout, Spin, Space, Row, Col, Divider } from "antd";
 
 /* Misc */
 import axios from "axios";
@@ -51,14 +51,13 @@ function Index() {
                 <Content>
                     {seatsLoaded ? (
                         <div className="site-content">
-                            <div>
+                            <div className="seat-grid">
                                 {seats.map((row, seatRow) => {
                                     /* Keep count of current column */
                                     let curCol = 0;
 
                                     /* Find example seats at current row if needed */
                                     if (seatAmount > 0) {
-                                        console.log(seatAmount, seatsTogether);
                                         var exampleSeats = findSeats(
                                             seats[seatRow],
                                             seatAmount,
@@ -69,7 +68,7 @@ function Index() {
                                     }
 
                                     return (
-                                        <Row>
+                                        <Row wrap={false}>
                                             {row.map((seat) => {
                                                 /* Insert empty columns if there are no seats */
                                                 const seatCol =
@@ -120,6 +119,17 @@ function Index() {
                                         </Row>
                                     );
                                 })}
+                                <Divider>
+                                    <Space direction="horizontal">
+                                        <Seat reserved={false} /> Miejsca
+                                        dostępne
+                                        <Divider type="vertical" />
+                                        <Seat reserved={true} /> Miejsca
+                                        zarezerwowane
+                                        <Divider type="vertical" />
+                                        <Seat exampleSeat={true} /> Twój wybór
+                                    </Space>
+                                </Divider>
                             </div>
                         </div>
                     ) : (

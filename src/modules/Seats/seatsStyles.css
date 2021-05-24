@@ -1,5 +1,11 @@
 @import "~antd/dist/antd.css";
 
+html,
+body {
+    width: 100%;
+    min-width: 820px;
+}
+
 body {
     overflow-y: hidden;
 }
@@ -15,4 +21,7 @@ body {
 .site-content {
     height: calc(100vh - 124px);
     background-color: #d6d6d6;
+
+    height: 100vh;
+    min-height: 650px;
 }
