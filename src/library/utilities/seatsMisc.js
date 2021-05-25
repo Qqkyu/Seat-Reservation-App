@@ -12,3 +12,18 @@ export function includes(seats, x, y) {
         }) != "undefined"
     );
 }
+
+/**
+ * Count available seats given an object of seats.
+ * @param {object} seats
+ * @returns {number}
+ */
+export function countAvailableSeats(seats) {
+    var counter = 0;
+    for (const seat of seats) {
+        if (!seat["reserved"]) {
+            ++counter;
+        }
+    }
+    return counter;
+}

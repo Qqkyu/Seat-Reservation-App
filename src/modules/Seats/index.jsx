@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 /* Utilities */
 import mapSeatsObject from "library/utilities/mapSeatsObject";
 import findSeats from "library/utilities/findSeats";
-import { includes } from "library/utilities/seatsMisc";
+import { countAvailableSeats, includes } from "library/utilities/seatsMisc";
 
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
@@ -49,17 +49,32 @@ function Index() {
 
     const reservedSeats = useSelector((state) => state.reservedSeats);
 
-    let seatAmount = useSelector((state) => state.seatAmount);
-    let seatsTogether = useSelector((state) => state.seatsTogether);
+    const requestedSeatAmount = useSelector((state) => state.seatAmount);
+    const seatsTogether = useSelector((state) => state.seatsTogether);
+
+    /* Helper variable to keep count of currently requested seats */
+    let seatAmount = requestedSeatAmount;
 
     useEffect(() => {
         axios.get(`http://localhost:3000/seats`).then((res) => {
             const seats = res.data;
+
+            /* Map and dispatch fetched data */
             const mappedSeats = mapSeatsObject(seats);
             dispatch(setAvailableSeats(mappedSeats));
             dispatch(availableSeatsLoaded(true));
+
+            /* Check if amount of seats requested by user is available */
+            const availableSeatsAmount = countAvailableSeats(seats);
+            if (countAvailableSeats(seats) < requestedSeatAmount) {
+                openNotification(
+                    "error",
+                    "Za mało dostępnych miejsc!",
+                    `Nie znaleźliśmy wybranej ilości miejsc. Liczba dostępnych miejsc to ${availableSeatsAmount}.`
+                );
+            }
         });
-    }, [dispatch]);
+    }, [dispatch, requestedSeatAmount]);
 
     const openNotification = (type, message, description) => {
         notification[type]({

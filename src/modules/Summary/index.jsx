@@ -9,7 +9,7 @@ import Navbar from "library/common/components/Navbar";
 import "./summaryStyles.css";
 
 /* Ant Design */
-import { Layout, Result, Button } from "antd";
+import { Layout, Result } from "antd";
 
 const { Header, Footer, Content } = Layout;
 

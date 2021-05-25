@@ -44,7 +44,7 @@ function Index() {
                         >
                             <InputNumber
                                 min={1}
-                                max={10}
+                                max={150}
                                 defaultValue={1}
                                 onBlur={(e) => {
                                     dispatch(setSeatAmount(e.target.value));
