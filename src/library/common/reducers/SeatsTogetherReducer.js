@@ -1,3 +1,6 @@
+/**
+ * Keep track of whether user wants seats together
+ */
 const seatsTogether = (state = false, action) => {
     switch (action.type) {
         case "SET_TOGETHER":

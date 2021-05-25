@@ -24,8 +24,8 @@ function Index() {
 
     const reservedSeats = useSelector((state) => state.reservedSeats);
 
+    /* Mark chosen seats as reserved */
     reservedSeats.forEach((seat) => {
-        console.log(`button, seat: ${seat}`);
         dispatch(setSeatAsReserved(seat));
     });
 

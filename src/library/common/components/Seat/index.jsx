@@ -16,12 +16,19 @@ import {
     setSeatAvailable,
 } from "library/common/actions/ReserveSeatAction";
 
+/**
+ *
+ * @param {boolean} exampleSeat - Is seat currently displayed as example seat
+ * @param {boolean} reserved    - Is seat currently reserved as reserved seat
+ * @param {object} seat         - Seat object as specified in the API
+ */
 function Index({ exampleSeat, reserved, seat }) {
     const [chosen, setChosen] = useState(exampleSeat);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        /* Reserved seats are "untouchable" */
         if (!reserved) {
             chosen
                 ? dispatch(reserveSeat(seat))

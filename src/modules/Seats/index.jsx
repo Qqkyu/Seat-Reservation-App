@@ -1,6 +1,5 @@
 /* React */
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 /* Redux */
 import { useSelector, useDispatch } from "react-redux";
@@ -11,30 +10,21 @@ import findSeats from "library/utilities/findSeats";
 import {
     countLoadedAvailableSeats,
     countAvailableSeats,
-    includes,
 } from "library/utilities/seatsMisc";
 
 /* Components */
+import ReserveButton from "library/common/components/ReserveButton";
 import BottomNavbar from "library/common/components/BottomNavbar";
 import Navbar from "library/common/components/Navbar";
 
 import SeatsInfo from "library/common/components/SeatsInfo";
-import Seat from "library/common/components/Seat";
+import SeatsRow from "library/common/components/Row";
 
 /* CSS */
 import "./seatsStyles.css";
 
 /* Ant Design */
-import {
-    Layout,
-    Spin,
-    Space,
-    Row,
-    Col,
-    Divider,
-    Button,
-    notification,
-} from "antd";
+import { Layout, Spin, Space, Divider, notification } from "antd";
 
 /* Misc */
 import axios from "axios";
@@ -64,6 +54,7 @@ function Index() {
             /* Check if amount of seats requested by user is available */
             const availableSeatsAmount = countLoadedAvailableSeats(seats);
             if (availableSeatsAmount < requestedSeatAmount) {
+                /* Not enough available seats - notify user */
                 openNotification(
                     "error",
                     "Za mało dostępnych miejsc!",
@@ -71,6 +62,7 @@ function Index() {
                 );
             }
         } else {
+            /* First time - fetch available seats from the API */
             axios.get(`http://localhost:3000/seats`).then((res) => {
                 const seats = res.data;
 
@@ -82,6 +74,7 @@ function Index() {
                 /* Check if amount of seats requested by user is available */
                 const availableSeatsAmount = countAvailableSeats(seats);
                 if (availableSeatsAmount < requestedSeatAmount) {
+                    /* Not enough available seats - notify user */
                     openNotification(
                         "error",
                         "Za mało dostępnych miejsc!",
@@ -109,102 +102,39 @@ function Index() {
                     {seatsLoaded ? (
                         <div className="site-content">
                             <div className="seat-grid">
-                                {seats.map((row, seatRow) => {
-                                    /* Keep count of current column */
-                                    let curCol = 0;
+                                {
+                                    /* Map every row into seats */
+                                    seats.map((row, seatRow) => {
+                                        /* Keep count of current column */
+                                        let curCol = 0;
 
-                                    /* Find example seats at current row if needed */
-                                    if (seatAmount > 0) {
-                                        var chosenSeats = findSeats(
-                                            seats[seatRow],
-                                            seatAmount,
-                                            seatsTogether
+                                        /* Find example seats at current row if needed */
+                                        if (seatAmount > 0) {
+                                            var chosenSeats = findSeats(
+                                                seats[seatRow],
+                                                seatAmount,
+                                                seatsTogether
+                                            );
+                                            /* Update needed seats amount */
+                                            seatAmount -= chosenSeats.length;
+                                        }
+
+                                        return (
+                                            <SeatsRow
+                                                row={row}
+                                                curCol={curCol}
+                                                chosenSeats={chosenSeats}
+                                                seatRow={seatRow}
+                                            />
                                         );
-                                        /* Update needed seats amount */
-                                        seatAmount -= chosenSeats.length;
-                                    }
-
-                                    return (
-                                        <Row wrap={false}>
-                                            {row.map((seat) => {
-                                                /* Insert empty columns if there are no seats */
-                                                const seatCol =
-                                                    seat["cords"]["y"];
-                                                /* Store empty columns (if any) in "emptySeats" array */
-                                                const emptySeats = [];
-                                                while (curCol < seatCol) {
-                                                    /* Push empty column */
-                                                    emptySeats.push(
-                                                        <Col
-                                                            style={{
-                                                                width: 50,
-                                                            }}
-                                                        ></Col>
-                                                    );
-                                                    ++curCol;
-                                                }
-                                                /* Always increment current seat column */
-                                                ++curCol;
-                                                return (
-                                                    <>
-                                                        {emptySeats}
-                                                        <Col
-                                                            style={{
-                                                                width: 50,
-                                                            }}
-                                                        >
-                                                            <Seat
-                                                                exampleSeat={
-                                                                    chosenSeats
-                                                                        ? includes(
-                                                                              chosenSeats,
-                                                                              seatRow,
-                                                                              seatCol
-                                                                          )
-                                                                        : false
-                                                                }
-                                                                reserved={
-                                                                    seat[
-                                                                        "reserved"
-                                                                    ]
-                                                                }
-                                                                seat={seat}
-                                                            />
-                                                        </Col>
-                                                    </>
-                                                );
-                                            })}
-                                        </Row>
-                                    );
-                                })}
+                                    })
+                                }
                                 <Divider direction="vertical">
                                     <SeatsInfo />
-                                    <Divider style={{ marginTop: 30 }}>
-                                        {reservedSeats.length === 0 ? (
-                                            <Button
-                                                type="primary"
-                                                className="reserve-button"
-                                                onClick={(e) =>
-                                                    openNotification(
-                                                        "error",
-                                                        "Za mało wybranych miejsc!",
-                                                        "Proszę wybrać przynajmniej jedno miejsce do rezerwacji."
-                                                    )
-                                                }
-                                            >
-                                                Rezerwuj
-                                            </Button>
-                                        ) : (
-                                            <Link to="/summary">
-                                                <Button
-                                                    type="primary"
-                                                    className="reserve-button"
-                                                >
-                                                    Rezerwuj
-                                                </Button>
-                                            </Link>
-                                        )}
-                                    </Divider>
+                                    <ReserveButton
+                                        openNotification={openNotification}
+                                        chosenSeatsAmount={reservedSeats.length}
+                                    />
                                 </Divider>
                             </div>
                         </div>

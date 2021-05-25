@@ -21,7 +21,7 @@ function Index() {
     return (
         <Link
             to="/"
-            onClick={(e) => {
+            onClick={() => {
                 dispatch(setSeatAmount(1));
                 dispatch(setSeatsTogether(false));
                 dispatch(clearChosenSeatsCache());
