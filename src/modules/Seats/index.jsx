@@ -36,6 +36,14 @@ import {
 const { Header, Footer, Content } = Layout;
 
 function Index() {
+    /* Page specific attributes */
+    document
+        .getElementById("viewport")
+        .setAttribute(
+            "content",
+            "width=820px, initial-scale=1, user-scalable=yes"
+        );
+
     const dispatch = useDispatch();
 
     const seatsLoaded = useSelector((state) => state.availableSeatsLoaded);
@@ -100,7 +108,7 @@ function Index() {
                 </Header>
                 <Content>
                     {seatsLoaded ? (
-                        <div className="site-content">
+                        <div className="seats-site-content">
                             <div className="seat-grid">
                                 {
                                     /* Map every row into seats */
@@ -139,7 +147,7 @@ function Index() {
                             </div>
                         </div>
                     ) : (
-                        <div className="site-content seat-grid-loading">
+                        <div className="seats-site-content">
                             <Space size="middle">
                                 <Spin size="large" />
                             </Space>

@@ -1,0 +1,19 @@
+@import "~antd/dist/antd.css";
+
+body {
+    width: 100%;
+    overflow: auto;
+    background-color: #d6d6d6;
+}
+
+.summary-site-content {
+    position: relative;
+    top: 62px;
+    left: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #d6d6d6;
+}

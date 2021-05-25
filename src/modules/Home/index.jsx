@@ -20,6 +20,12 @@ import { Form, InputNumber, Button, Layout, Checkbox } from "antd";
 const { Header, Footer, Content } = Layout;
 
 function Index() {
+    /* Page specific attributes */
+    document
+        .getElementById("viewport")
+        .setAttribute("content", "width=device-width, initial-scale=1");
+    document.body.style.minWidth = "unset";
+
     const [form] = Form.useForm();
 
     const dispatch = useDispatch();
@@ -29,52 +35,45 @@ function Index() {
             <Header className="navbar">
                 <Navbar />
             </Header>
-            <Content style={{ height: "100%" }}>
-                <div className="site-content">
-                    <Form
-                        form={form}
-                        initialValues={{
-                            layout: "inline",
-                        }}
-                        className="seats-form"
-                    >
-                        <Form.Item
-                            label="Liczba miejsc:"
-                            style={{ width: 240 }}
+            <Content className="home-site-content">
+                <Form
+                    form={form}
+                    initialValues={{
+                        layout: "inline",
+                    }}
+                    className="seats-form"
+                >
+                    <Form.Item label="Liczba miejsc:" style={{ width: 240 }}>
+                        <InputNumber
+                            min={1}
+                            max={150}
+                            defaultValue={1}
+                            onBlur={(e) => {
+                                dispatch(setSeatAmount(e.target.value));
+                            }}
+                            className="seats-input"
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Checkbox
+                            onChange={(e) => {
+                                dispatch(setSeatsTogether(e.target.checked));
+                            }}
                         >
-                            <InputNumber
-                                min={1}
-                                max={150}
-                                defaultValue={1}
-                                onBlur={(e) => {
-                                    dispatch(setSeatAmount(e.target.value));
-                                }}
-                                className="seats-input"
-                            />
-                        </Form.Item>
-                        <Form.Item>
-                            <Checkbox
-                                onChange={(e) => {
-                                    dispatch(
-                                        setSeatsTogether(e.target.checked)
-                                    );
-                                }}
+                            Czy miejsca mają być obok siebie?
+                        </Checkbox>
+                    </Form.Item>
+                    <Form.Item>
+                        <Link to={`/seats`}>
+                            <Button
+                                type="primary"
+                                className="choose-seats-button"
                             >
-                                Czy miejsca mają być obok siebie?
-                            </Checkbox>
-                        </Form.Item>
-                        <Form.Item>
-                            <Link to={`/seats`}>
-                                <Button
-                                    type="primary"
-                                    className="choose-seats-button"
-                                >
-                                    Wybierz miejsca
-                                </Button>
-                            </Link>
-                        </Form.Item>
-                    </Form>
-                </div>
+                                Wybierz miejsca
+                            </Button>
+                        </Link>
+                    </Form.Item>
+                </Form>
             </Content>
             <Footer>
                 <BottomNavbar />

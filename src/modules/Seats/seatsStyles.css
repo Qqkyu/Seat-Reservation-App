@@ -1,28 +1,23 @@
 @import "~antd/dist/antd.css";
 
-html,
 body {
     width: 100%;
     min-width: 820px;
-}
-
-body {
     overflow: auto;
+    background-color: #d6d6d6;
 }
 
-.site-content {
+.seats-site-content {
     position: relative;
     top: 62px;
     left: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     height: calc(100vh - 124px);
     min-height: 800px;
 
     background-color: #d6d6d6;
-}
-
-.seat-grid-loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

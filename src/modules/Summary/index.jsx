@@ -20,6 +20,12 @@ import { Layout, Result } from "antd";
 const { Header, Footer, Content } = Layout;
 
 function Index() {
+    /* Page specific attributes */
+    document
+        .getElementById("viewport")
+        .setAttribute("content", "width=device-width, initial-scale=1");
+    document.body.style.minWidth = "unset";
+
     const dispatch = useDispatch();
 
     const reservedSeats = useSelector((state) => state.reservedSeats);
@@ -35,7 +41,7 @@ function Index() {
                 <Navbar />
             </Header>
             <Content>
-                <div className="site-content">
+                <div className="summary-site-content">
                     <Result
                         status="success"
                         title="Twoja rezerwacja przebiegła pomyślnie!"
