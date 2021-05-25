@@ -7,7 +7,7 @@ App which allows user to specify number of seats and whether they have to be nex
 First run the server with seats grid:
 
 ```
-git clone https://bitbucket.org/xkom/zadanie_rekrutacyjne/src/master/
+git clone https://bitbucket.org/xkom/zadanie_rekrutacyjne/
 cd zadanie_rekrutacyjne
 npm run api
 ```
@@ -15,8 +15,9 @@ npm run api
 When server is running you can run the app:
 
 ```
-git clone https://github.com/Qqkyu/Seat-Reservation-App
+git clone https://github.com/Qqkyu/Seat-Reservation-App/
 cd Seat-Reservation-App
+yarn
 yarn start
 ```
 
