@@ -1,13 +1,19 @@
-export const reserveSeat = (seatId) => {
+export const reserveSeat = (seat) => {
     return {
         type: "SET_SEAT_AS_RESERVED",
-        payload: seatId,
+        payload: seat,
     };
 };
 
-export const setSeatAvailable = (seatId) => {
+export const setSeatAvailable = (seat) => {
     return {
         type: "SET_SEAT_AS_AVAILABLE",
-        payload: seatId,
+        payload: seat,
+    };
+};
+
+export const clearChosenSeatsCache = () => {
+    return {
+        type: "CLEAR_CHOSEN_SEATS_CACHE",
     };
 };

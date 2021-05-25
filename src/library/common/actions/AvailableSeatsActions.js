@@ -5,9 +5,16 @@ export const setAvailableSeats = (availableSeats) => {
     };
 };
 
-export const availableSeatsLoaded = (set) => {
+export const availableSeatsLoaded = (seat) => {
     return {
         type: "SET_AVAILABLE_SEATS_LOADED",
-        payload: set,
+        payload: seat,
+    };
+};
+
+export const setSeatAsReserved = (seat) => {
+    return {
+        type: "RESERVE_SEAT",
+        payload: seat,
     };
 };

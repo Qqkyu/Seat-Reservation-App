@@ -1,6 +1,9 @@
 /* React */
 import React from "react";
 
+/* Redux */
+import { useSelector, useDispatch } from "react-redux";
+
 /* Components */
 import BottomNavbar from "library/common/components/BottomNavbar";
 import Navbar from "library/common/components/Navbar";
@@ -8,12 +11,24 @@ import Navbar from "library/common/components/Navbar";
 /* CSS */
 import "./summaryStyles.css";
 
+/* Misc */
+import { setSeatAsReserved } from "library/common/actions/AvailableSeatsActions";
+
 /* Ant Design */
 import { Layout, Result } from "antd";
 
 const { Header, Footer, Content } = Layout;
 
 function Index() {
+    const dispatch = useDispatch();
+
+    const reservedSeats = useSelector((state) => state.reservedSeats);
+
+    reservedSeats.forEach((seat) => {
+        console.log(`button, seat: ${seat}`);
+        dispatch(setSeatAsReserved(seat));
+    });
+
     return (
         <Layout className="layout">
             <Header className="navbar">
@@ -24,12 +39,20 @@ function Index() {
                     <Result
                         status="success"
                         title="Twoja rezerwacja przebiegła pomyślnie!"
-                        subTitle="Wybrałeś miejsca..."
+                        subTitle="Wybrałeś miejsca: "
                         extra={[
-                            <p>
-                                Dziękujemy! W razie problemów prosimy o kontakt
-                                z działem administracji.
-                            </p>,
+                            ...reservedSeats.map((seat) => {
+                                const cords = seat["cords"];
+                                return (
+                                    <p>{`- rząd ${cords["x"]}, miejsce ${cords["y"]} (${seat["id"]})`}</p>
+                                );
+                            }),
+                            ...[
+                                <p>
+                                    Dziękujemy! W razie problemów prosimy o
+                                    kontakt z działem administracji.
+                                </p>,
+                            ],
                         ]}
                     />
                 </div>

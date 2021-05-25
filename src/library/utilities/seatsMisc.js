@@ -27,3 +27,20 @@ export function countAvailableSeats(seats) {
     }
     return counter;
 }
+
+/**
+ * Count available seats given an array of arrays of seats.
+ * @param {array} seats
+ * @returns {number}
+ */
+export function countLoadedAvailableSeats(seats) {
+    var counter = 0;
+    seats.forEach((row) => {
+        row.forEach((seat) => {
+            if (!seat["reserved"]) {
+                ++counter;
+            }
+        });
+    });
+    return counter;
+}

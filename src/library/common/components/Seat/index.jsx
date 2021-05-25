@@ -16,16 +16,18 @@ import {
     setSeatAvailable,
 } from "library/common/actions/ReserveSeatAction";
 
-function Index({ exampleSeat, reserved, seatId }) {
+function Index({ exampleSeat, reserved, seat }) {
     const [chosen, setChosen] = useState(exampleSeat);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        chosen
-            ? dispatch(reserveSeat(seatId))
-            : dispatch(setSeatAvailable(seatId));
-    }, [dispatch, seatId, chosen]);
+        if (!reserved) {
+            chosen
+                ? dispatch(reserveSeat(seat))
+                : dispatch(setSeatAvailable(seat));
+        }
+    }, [dispatch, seat, chosen, reserved]);
 
     if (reserved) {
         return <Card style={{ backgroundColor: "#141414" }} />;

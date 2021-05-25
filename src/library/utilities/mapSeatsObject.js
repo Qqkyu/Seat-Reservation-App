@@ -1,6 +1,6 @@
 /**
  * Map seats array into seats array of arrays where x cords are indices.
- * @param {object} seats - The available seats fetched from the API.
+ * @param {array} seats - The available seats fetched from the API.
  * @returns {array}
  */
 function mapSeatsObject(seats) {
